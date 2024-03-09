@@ -1,0 +1,41 @@
+import csv
+
+def analyze(entries):
+    total_comments = 0
+    total_score = 0
+    highest_score = entries[0]
+    lowest_score = entries[0]
+    most_commented_post = entries[0]
+
+    for entry in entries:
+        total_comments += entry[2]
+        total_score += entry[1]
+
+        if entry[1] > highest_score[1]:
+            highest_score = entry
+
+        if entry[1] < lowest_score[1]:
+            lowest_score = entry
+
+        if entry[2] > most_commented_post[2]:
+            most_commented_post = entry
+
+    avg_comments = total_comments / len(entries)
+    avg_score = total_score / len(entries)
+
+    print(f'Average score: {avg_score:.2f}')
+    print(f'Average comments per post: {avg_comments:.2f}')
+    print(f'Highest score: {highest_score[1]}, title: {highest_score[3]}')
+    print(f'Lowest score: {lowest_score[1]}, title: {lowest_score[3]}')
+    print(f'Most comments: {most_commented_post[2]}, title: {most_commented_post[3]}')
+
+# Import the CSV file 
+
+csv_file_path = r'C:\Users\12407\Desktop\modul1_programing assignmnet\reddit_vm.csv'
+
+print("Attempting to open file at path:", csv_file_path)  # Debug print statement
+  
+if __name__ == "__main__":
+    with open(csv_file_path, "r", encoding='UTF-8', errors="ignore") as input_file:
+        entries = [(e['id'], int(e['score']), int(e['comms_num']), e['title']) for e in csv.DictReader(input_file)]
+        analyze(entries)
